@@ -24,6 +24,10 @@ on:
       run-build:
         type: boolean
         default: true
+      build-blocking:
+        description: "Fail the job on build errors. False = report only (advisory)."
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -68,6 +72,7 @@ jobs:
 
       - name: Build
         if: ${{ inputs.run-build }}
+        continue-on-error: ${{ !inputs.build-blocking }}
         shell: bash
         run: |
           if [ ! -f package.json ]; then exit 0; fi
