@@ -1,46 +1,51 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/maxiwhite/maxiwhite/main/banner.svg" width="100%" alt="Uniformity" />
+<img src="https://raw.githubusercontent.com/maxiwhite/maxiwhite/main/banner.svg" width="100%" alt="Uniformity — the OS composes, the domains remain real" />
 
-<br/>
+<br/><br/>
 
-# UNIFORMITY
+<a href="https://uniform1ty.github.io"><img src="https://img.shields.io/badge/LANDING_PAGE-uniform1ty.github.io-0ea5e9?style=for-the-badge&labelColor=fafafa&color=0ea5e9" alt="Landing page" /></a>
+<a href="https://github.com/UNIFORM1TY/uniformity-os"><img src="https://img.shields.io/badge/OS-uniformity--os-0a0a0b?style=for-the-badge&labelColor=fafafa" alt="uniformity-os" /></a>
 
-**Separate systems. Shared truth.**
+<br/><br/>
+
+**The operating system / composition layer.**
 
 </div>
 
 ---
 
-Uniformity is the local-first coordination backbone behind a portfolio of deliberately distinct products. Identity, shared object state, evidence, action, verification and history are standardised — without collapsing every domain into one application.
+Uniformity standardises **identity, canonical object state, permissions, evidence, action, verification and history** — without merging every project into one product. It does not own instrument semantics or advisory reasoning.
 
-### Products
+```text
+Object → State → Signal → Evidence → Intelligence → Action → Verification → History
+```
 
-| | System | Domain |
-| :--- | :--- | :--- |
-| ⬢ | **uniformity-os** | Coordination backbone — the operating layer itself |
-| ⬡ | **resell-chief** | RESELL — resale-domain truth and transactions |
-| ⬢ | **SUBANGEL** | Calm intelligence for musicians and instrument builders |
-| ⬡ | **uniformity-engineering-link** | Engineering handoff contracts and CI validation |
+### The product model
 
-### Principles
+| | Surface | Owns | Must not own |
+| :--- | :--- | :--- | :--- |
+| ⬡ | **Uniformity** — the OS | identity, canonical object/state, permissions, events, orchestration, role/context | instrument semantics, advisory reasoning |
+| ⬢ | **LOGARHYTHM / SUBANGEL** — one instrument world | instrument & workshop semantics, human-facing instrument experience | cross-domain OS truth |
+| ⬡ | **JUNO-106** — reference object | proving the runtime | being a product |
+| ⬢ | **Fridge Brain** — advisory service | interpretation, provenance, hypotheses, one proposed next action | canonical state mutation |
+| ⬡ | **RESELL · UCMR** — domain adapters | their own domain semantics and workflows | instrument-domain truth |
+| ⬢ | **Hermes + Nous** — research/operator | research cross-reference, governed execution support | product truth |
 
-- **One owner per truth.** Coordination, product and runtime data never collapse into each other.
-- **Evidence over assertion.** Every claim carries a command, a result and a timestamp.
-- **Separate by design.** Systems compose through contracts, not shared databases.
+### Role projections
+
+Matt (technical) · Susanna (operational) · Customer (safe status) · Logarhythm (public) — **all resolve the same canonical `object_id`**.
+
+---
+
+<img src="https://raw.githubusercontent.com/UNIFORM1TY/UNIFORM1TY.github.io/main/architecture.svg" width="100%" alt="Uniformity runtime topology" />
 
 ---
 
 <div align="center">
 
-<a href="https://uniform1ty.github.io"><img src="https://img.shields.io/badge/landing_page-uniform1ty.github.io-6366f1?style=for-the-badge&labelColor=0b1120" alt="Landing page" /></a>
+### Technical boundaries stay explicit even when the experience feels seamless.
 
-<br/><br/>
-
-<img src="https://raw.githubusercontent.com/UNIFORM1TY/UNIFORM1TY.github.io/main/architecture.svg" width="100%" alt="Uniformity architecture" />
-
-<br/>
-
-<sub>Private by default. Verified by construction.</sub>
+<sub>The OS composes; the domains remain real.</sub>
 
 </div>
