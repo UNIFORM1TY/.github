@@ -32,5 +32,15 @@ Uniformity is the local-first coordination backbone behind a portfolio of delibe
 ---
 
 <div align="center">
+
+<a href="https://uniform1ty.github.io"><img src="https://img.shields.io/badge/landing_page-uniform1ty.github.io-6366f1?style=for-the-badge&labelColor=0b1120" alt="Landing page" /></a>
+
+<br/><br/>
+
+<img src="https://raw.githubusercontent.com/UNIFORM1TY/UNIFORM1TY.github.io/main/architecture.svg" width="100%" alt="Uniformity architecture" />
+
+<br/>
+
 <sub>Private by default. Verified by construction.</sub>
+
 </div>
