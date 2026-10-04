@@ -1,0 +1,67 @@
+name: Reusable Security Scan
+
+on:
+  workflow_call:
+    inputs:
+      run-codeql:
+        description: "Run CodeQL analysis"
+        type: boolean
+        default: true
+      language:
+        description: "CodeQL language (javascript-typescript, python, ...). Empty = auto-detect."
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  dependency-review:
+    name: Dependency review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+        continue-on-error: true
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: npm audit
+        shell: bash
+        run: |
+          if [ -f package-lock.json ]; then
+            npm audit --audit-level=high || true
+          else
+            echo "no lockfile - skipping"
+          fi
+      - name: pip audit
+        shell: bash
+        run: |
+          if [ -f requirements.txt ]; then
+            python -m pip install --upgrade pip pip-audit
+            pip-audit -r requirements.txt || true
+          fi
+
+  codeql:
+    name: CodeQL
+    if: ${{ inputs.run-codeql }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ${{ inputs.language != '' && fromJSON(format('["{0}"]', inputs.language)) || fromJSON('["javascript-typescript"]') }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+      - uses: github/codeql-action/analyze@v3

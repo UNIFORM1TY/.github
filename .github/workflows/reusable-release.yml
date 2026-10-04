@@ -1,0 +1,64 @@
+name: Reusable Release
+
+on:
+  workflow_call:
+    inputs:
+      tag-prefix:
+        description: "Tag prefix (e.g. v)"
+        type: string
+        default: "v"
+      generate-notes:
+        type: boolean
+        default: true
+    outputs:
+      tag:
+        description: "The tag that was released"
+        value: ${{ jobs.release.outputs.tag }}
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Tag and release
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compute next tag
+        id: tag
+        shell: bash
+        run: |
+          git fetch --tags --force
+          PREFIX="${{ inputs.tag-prefix }}"
+          LAST=$(git tag -l "${PREFIX}*" --sort=-v:refname | head -n1)
+          if [ -z "$LAST" ]; then
+            NEXT="${PREFIX}0.1.0"
+          else
+            NUM=${LAST#"$PREFIX"}
+            MAJOR=$(echo "$NUM" | cut -d. -f1)
+            MINOR=$(echo "$NUM" | cut -d. -f2)
+            PATCH=$(echo "$NUM" | cut -d. -f3)
+            NEXT="${PREFIX}${MAJOR}.${MINOR}.$((PATCH+1))"
+          fi
+          echo "tag=$NEXT" >> "$GITHUB_OUTPUT"
+          echo "Next tag: $NEXT"
+
+      - name: Create tag and release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.tag.outputs.tag }}"
+          git tag "$TAG"
+          git push origin "$TAG"
+          if [ "${{ inputs.generate-notes }}" = "true" ]; then
+            gh release create "$TAG" --generate-notes --title "$TAG"
+          else
+            gh release create "$TAG" --title "$TAG" --notes "Release $TAG"
+          fi

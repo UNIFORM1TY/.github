@@ -1,0 +1,67 @@
+name: Reusable Node CI
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: Node version to use
+        type: string
+        default: "20"
+      package-manager:
+        description: npm | yarn | pnpm
+        type: string
+        default: "npm"
+      run-lint:
+        type: boolean
+        default: true
+      run-tests:
+        type: boolean
+        default: true
+      run-build:
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  node-ci:
+    name: Node CI (node ${{ inputs.node-version }})
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          if [ ! -f package.json ]; then echo "no package.json - skipping"; exit 0; fi
+          case "${{ inputs.package-manager }}" in
+            yarn) corepack enable && (yarn install --frozen-lockfile || yarn install) ;;
+            pnpm) corepack enable && (pnpm install --frozen-lockfile || pnpm install) ;;
+            *)    if [ -f package-lock.json ]; then npm ci; else npm install; fi ;;
+          esac
+
+      - name: Lint
+        if: ${{ inputs.run-lint }}
+        shell: bash
+        run: |
+          if [ ! -f package.json ]; then exit 0; fi
+          npm run lint --if-present
+
+      - name: Test
+        if: ${{ inputs.run-tests }}
+        shell: bash
+        run: |
+          if [ ! -f package.json ]; then exit 0; fi
+          npm test --if-present
+
+      - name: Build
+        if: ${{ inputs.run-build }}
+        shell: bash
+        run: |
+          if [ ! -f package.json ]; then exit 0; fi
+          npm run build --if-present
