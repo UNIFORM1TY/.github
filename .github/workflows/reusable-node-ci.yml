@@ -51,18 +51,19 @@ jobs:
         shell: bash
         run: |
           if [ ! -f package.json ]; then exit 0; fi
-          if [ "${{ inputs.package-manager }}" = "bun" ]; then bun run lint --if-present; else npm run lint --if-present; fi
+          # --if-present must precede the script name or npm forwards it to the tool.
+          if [ "${{ inputs.package-manager }}" = "bun" ]; then bun run --if-present lint; else npm run --if-present lint; fi
 
       - name: Test
         if: ${{ inputs.run-tests }}
         shell: bash
         run: |
           if [ ! -f package.json ]; then exit 0; fi
-          if [ "${{ inputs.package-manager }}" = "bun" ]; then bun test --if-present 2>/dev/null || bun run test --if-present; else npm test --if-present; fi
+          if [ "${{ inputs.package-manager }}" = "bun" ]; then bun run --if-present test; else npm run --if-present test; fi
 
       - name: Build
         if: ${{ inputs.run-build }}
         shell: bash
         run: |
           if [ ! -f package.json ]; then exit 0; fi
-          if [ "${{ inputs.package-manager }}" = "bun" ]; then bun run build --if-present; else npm run build --if-present; fi
+          if [ "${{ inputs.package-manager }}" = "bun" ]; then bun run --if-present build; else npm run --if-present build; fi
